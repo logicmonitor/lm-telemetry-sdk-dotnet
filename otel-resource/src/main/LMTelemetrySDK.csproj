@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+<PackageId>LMTelemetrySDK</PackageId>
+<Version>0.0.1-alpha</Version>
+<Company>Logicmonitor</Company>
+</PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.EC2" Version="3.7.59.1" />
+    <PackageReference Include="OpenTelemetry" Version="1.2.0-rc2" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.2.0-rc1" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.0.0-rc9" />
+  </ItemGroup>
+</Project>
