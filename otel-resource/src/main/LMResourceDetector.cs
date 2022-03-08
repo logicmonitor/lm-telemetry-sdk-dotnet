@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 using ec2;
 
 namespace LMResourceDetector
@@ -12,6 +13,7 @@ namespace LMResourceDetector
 
         public static Dictionary<string, object> Detect()
         {
+            Console.WriteLine("Detecting Resource");
             var servicename = Environment.GetEnvironmentVariable("OTEL_SERVICE_NAME") ?? Assembly.GetEntryAssembly().GetName().Name;
             ResourceList = new Dictionary<string, object>();
             Dictionary<string, object> _resourceList = new Dictionary<string, object>();
@@ -28,25 +30,37 @@ namespace LMResourceDetector
             if (_setResource.Equals("1"))
             {
                 PopulateResourceEnvVariable();
-                Console.WriteLine("Resource Attribute Env Variable Set");
             }
-            ResourceList.Add("service.name", servicename);
+            Environment.SetEnvironmentVariable("OTEL_SERVICE_NAME", servicename);
             return ResourceList;
         }
 
         private static void PopulateResourceEnvVariable()
         {
-            string resource_attribute = "service=Test";
+            string otel_res_attributes = Environment.GetEnvironmentVariable(resource_attributre_env);
+            StringBuilder sb = new StringBuilder();
+            if (otel_res_attributes != null)
+            {
+                sb.Append(otel_res_attributes);
+                sb.Append(",");
+            }
             if (ResourceList.Count != 0)
             {
                 foreach (var item in ResourceList)
                 {
-                    resource_attribute += item.Key + "=" + item.Value + ",";
+                    sb.Append(item.Key);
+                    sb.Append("=");
+                    sb.Append(item.Value);
+                    sb.Append(",");
                 }
-                resource_attribute = resource_attribute.Substring(0, resource_attribute.Length - 1);
-                Console.WriteLine(resource_attribute);
             }
-            Environment.SetEnvironmentVariable(resource_attributre_env, resource_attribute);
+            if (sb.Length > 0)
+            {
+                otel_res_attributes = sb.ToString().Substring(0, sb.Length - 1);
+                Console.WriteLine("Attributes detected:"+otel_res_attributes);
+
+                Environment.SetEnvironmentVariable(resource_attributre_env, otel_res_attributes);
+            }
 
         }
     }

@@ -3,11 +3,11 @@ using System;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ec2
 {
     public class LMEc2Resource{
-
         private static readonly string ARN = "aws.arn";
         private static readonly string CLOUD_PLATFORM = "cloud.platform";
         private static readonly string AWS_EC2_PLATFORM = "aws_ec2";
@@ -34,6 +34,7 @@ namespace ec2
                     region = jsonDocument["region"].ToString();
                     if (region != null)
                         return region;
+
                 }
 
                 catch (Exception e)
@@ -53,7 +54,18 @@ namespace ec2
             string id = Amazon.Util.EC2InstanceMetadata.IdentityDocument;
             string[] data = id.Split(",");
             data = data[0].Split(":");
-            return data[1];
+            int len = data[1].Length;
+            StringBuilder sb = new StringBuilder();
+            char[] accid = data[1].ToCharArray();
+            for(int i = 0; i < accid.Length; i++)
+            {
+                if(accid[i]!= ' ' && accid[i] !='\"' )
+                {
+                    Console.WriteLine(accid[i]);
+                    sb.Append(accid[i]);
+                }
+            }
+            return sb.ToString();
         }
 
         static async Task<bool> IsEC2Instance() 
@@ -61,7 +73,7 @@ namespace ec2
             try
             {
                 var response = await PingEC2();
-                //Console.WriteLine("Response" + response + " " + response.StatusCode);
+                return true;
             }
             catch (Exception e)
             {
@@ -69,15 +81,13 @@ namespace ec2
                 return false;
 
             }
-            return true;
-
 
         }
         static async Task<HttpResponseMessage> PingEC2()
         {
             using (var client = new HttpClient())
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, "http://169.254.169.254/");
+                var request = new HttpRequestMessage(HttpMethod.Post, "http://169.254.169.254/");
                 client.Timeout = TimeSpan.FromSeconds(2);
                 var response = await client.SendAsync(request);
                 return response;
@@ -85,12 +95,12 @@ namespace ec2
         }
 
         static string getARN(){
-            string platform = "aws";
+            string platform = "aws:ec2";
             string region = GetRegion();
             string accountId = GetAccountId();
             string instanceId = GetInstanceId();
             if (platform != null && region != null && accountId != null && instanceId != null)
-                return "arn:" + platform + ":" + region + ":" + accountId + ":instance/" + instanceId;
+                return "arn:" + platform + ":" + region + ":" + accountId.ToString() + ":instance/" + instanceId;
             return null;
         }
 
@@ -108,7 +118,6 @@ namespace ec2
         {
             Dictionary<string, object> _resourceList = new Dictionary<string, object>();
             var isEc2instance = IsEC2Instance();
-
             if (isEc2instance.Result==true)
             {
                 _resourceList.Add(ARN, getARN());
@@ -126,7 +135,6 @@ namespace ec2
                 return null;
             }
         }
-
         private LMEc2Resource() { }
     }
 

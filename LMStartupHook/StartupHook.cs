@@ -19,21 +19,26 @@ internal class StartupHook
             var loaderAssembly = Environment.GetEnvironmentVariable("DOTNET_STARTUP_HOOKS");
             var loaderdirectory = Path.GetDirectoryName(loaderAssembly);
             var context = new AssemblyLoadContext("LMStartupHook", true);
-            //Console.WriteLine("LoaderDirectory" + loaderdirectory);
+
             if (_disableResourceDetection.Equals("0"))
             {
+                var LMloaderDirectory = Path.Combine(loaderdirectory, "LMTelemetry");
+                DirectoryInfo d = new DirectoryInfo(@LMloaderDirectory); 
+                FileInfo[] Files = d.GetFiles("*.dll");
+                foreach (FileInfo file in Files)
+                {
+                    context.LoadFromAssemblyPath(Path.Combine(LMloaderDirectory,file.Name));
+                    //Console.WriteLine("Loaded Assembly:"+file.Name);
+                }
                 Environment.SetEnvironmentVariable("SET_RESOURCE_ATTRIBUTE", "1");
                 Console.WriteLine("Initalising Resource");
-                context.LoadFromAssemblyPath(Path.Combine(loaderdirectory, "LMTelemetrySDK", "OpenTelemetry" + ".dll"));
-                context.LoadFromAssemblyPath(Path.Combine(loaderdirectory,"LMTelemetrySDK", "OpenTelemetry.Api" + ".dll"));
-                context.LoadFromAssemblyPath(Path.Combine(loaderdirectory, "LMTelemetrySDK", "AWSSDK.Core" + ".dll"));
-                context.LoadFromAssemblyPath(Path.Combine(loaderdirectory, "LMTelemetrySDK", "AWSSDK.EC2" + ".dll"));
-                Assembly LMResourceDetector = context.LoadFromAssemblyPath(Path.Combine(loaderdirectory, "LMTelemetrySDK", "LMTelemetrySDK" + ".dll"));
+                Assembly LMResourceDetector = context.LoadFromAssemblyPath(Path.Combine(LMloaderDirectory, "LMTelemetrySDK" + ".dll"));
+                InvokerResourceDetectMethod(LMResourceDetector, context);
             }
             else{
                 Console.WriteLine("LM Resource Detector Disabled!");
             }
-            InvokerOtelStartupHookMethod(loaderAssembly, context);
+            InvokerOtelStartupHookMethod(loaderdirectory, context);
             Console.WriteLine("LMStartupHook initialized successfully!");
             }
             catch (Exception ex)
@@ -49,11 +54,11 @@ internal class StartupHook
     private static void InvokerResourceDetectMethod(Assembly loaderAssembly,AssemblyLoadContext context)
     {
         //Console.WriteLine($"Get LMResourceDetector.main type");
-        var loaderType = loaderAssembly.GetType("LMResourceDetector.main");
+        var loaderType = loaderAssembly.GetType("LMResourceDetector.ResourceDetector");
 
         if (loaderType is null)
         {
-            Console.WriteLine($"LMResourceDetector.main type is null");
+            Console.WriteLine($"LMResourceDetector.ResourceDetector type is null");
             return;
         }
 
