@@ -6,9 +6,9 @@
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'example' " />
   <ItemGroup>
-    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc9" />
     <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9" />
-    <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.2.0-rc2" />
+    <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.2.0-rc3" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc9" />
     <PackageReference Include="LMTelemetrySDK" Version="0.0.1-alpha" />
   </ItemGroup>
 </Project>

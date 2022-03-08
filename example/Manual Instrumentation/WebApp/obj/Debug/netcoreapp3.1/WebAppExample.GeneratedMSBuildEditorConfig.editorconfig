@@ -1,3 +1,0 @@
-is_global = true
-build_property.RootNamespace = WebAppExample
-build_property.ProjectDir = /Users/adityabhairavkar/git/LMTelemetrySDK-Dotnet/opentelemetry-dotnet-contrib/example/Manual Instrumentation/WebApp/
