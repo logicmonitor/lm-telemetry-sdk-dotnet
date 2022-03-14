@@ -5,8 +5,9 @@ LogicMonitor Telemetry SDK
 
 To auto-instrument applications, the instrumentation:
 
-Injects and configures the OpenTelemetry .NET SDK into the application.
-Adds OpenTelemetry Instrumentation to key packages and APIs used by the application.
+1. Injects and configures the [OpenTelemetry .NET SDK](https://github.com/open-telemetry/opentelemetry-dotnet/blob/main/src/OpenTelemetry/README.md#opentelemetry-net-sdk) into the application.
+2. Adds [OpenTelemetry Instrumentation](https://opentelemetry.io/docs/concepts/instrumenting/) to key packages and APIs used by the application.
+
 The auto-instrumentation is capable of injecting instrumentations at runtime, a technique known as monkey-patching. This allows to instrument specific packages or APIs that don't provide the necessary hooks to generate .NET instrumentation packages.
 
 ## ENVIRONMENT VARIABLES
@@ -38,7 +39,7 @@ environment variables to the following values:
 
 | Environment variable | Description | Default |
 |-|-|-|
-| `OTEL_RESOURCE_ATTRIBUTES` | Key-value pairs to be used as resource attributes. See [Resource SDK](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/sdk.md#specifying-resource-information-via-an-environment-variable) for more details. | See [Resource semantic conventions](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/semantic_conventions/README.md#semantic-attributes-with-sdk-provided-default-value) for details. |
+| `OTEL_RESOURCE_ATTRIBUTES` | Key-value pairs to be used as resource attributes. See [Resource SDK](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/sdk.md#specifying-resource-information-via-an-environment-variable) for more details. For example, OTEL_RESOURCE_ATTRIBUTES="key1=value1,key2=value2"| See [Resource semantic conventions](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/semantic_conventions/README.md#semantic-attributes-with-sdk-provided-default-value) for details. |
 | `OTEL_SERVICE_NAME` | Sets the value of the [`service.name`](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/semantic_conventions/README.md#service) resource attribute. If `service.name` is also provided in `OTEL_RESOURCE_ATTRIBUTES`, then `OTEL_SERVICE_NAME` takes precedence. | `unknown_service:%ProcessName%` |
 
 The LMStartupHook invokes Lm-telemetry-dotnet resource detector to automatically detect resource attributes.Currently lm-telemetry-dotnet resource detector can only detect AWS EC2 environment variables along with service name.
@@ -75,8 +76,8 @@ The exporter is used to output the telemetry.
 
 ## UPDATING OPENTELEMETRY-DOTNET_INSTRUMENTATION SUBMODULE
 
- - To initialise submodule:-
-  - git submodule init
-  - git submodule update
- - To checkout specific commit of (opentelemetry-dotnet-instrumentation)[https://github.com/open-telemetry/opentelemetry-dotnet-instrumentation] repository 
-  - git checkout <commit-id> 
+ - To initialise submodule: 
+   -  git submodule init
+   -  git submodule update
+ - To checkout specific commit of [opentelemetry-dotnet-instrumentation](https://github.com/open-telemetry/opentelemetry-dotnet-instrumentation) repository 
+   -  git checkout <commit-id> 
