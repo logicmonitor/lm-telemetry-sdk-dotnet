@@ -23,6 +23,7 @@ OTEL_TRACES_EXPORTER=otlp
 OTEL_EXPORTER_OTLP_ENDPOINT=<YOUR_OTLP_ENDPOINT>
 OTEL_SERVICE_NAME=<YOUR_SERVICE_NAME>
 ```
+** InstallationLocation refers to /bin/tracer-home **
 
 ## ENVIRONMENT VARIABLES
 
@@ -33,7 +34,7 @@ To Auto instrument .Net application using LMStartupHook, the following environme
 To initialise LMStartupHook which will then invoke opentelemetry startuphook.
 | Environment variable | Value |
 |-|-|
-| `DOTNET_STARTUP_HOOKS` | `%InstallationLocation%/tracer-home/netcoreapp3.1/LMStartupHook.dll` |
+| `DOTNET_STARTUP_HOOKS` | `%InstallationLocation%/netcoreapp3.1/LMStartupHook.dll` |
 
 
 ### .NET Runtime Additional-Deps and Package Store
