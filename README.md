@@ -10,6 +10,20 @@ To auto-instrument applications, the instrumentation:
 
 The auto-instrumentation is capable of injecting instrumentations at runtime, a technique known as monkey-patching. This allows to instrument specific packages or APIs that don't provide the necessary hooks to generate .NET instrumentation packages.
 
+### Instrument a .NET application
+
+Before running the application, set the following environment variables:
+
+```env
+DOTNET_ADDITIONAL_DEPS=./%InstallationLocation%/AdditionalDeps
+DOTNET_SHARED_STORE=%InstallationLocation%/store
+DOTNET_STARTUP_HOOKS=%InstallationLocation%/netcoreapp3.1/LMStartupHook.dll
+OTEL_DOTNET_TRACER_INSTRUMENTATIONS=AspNet,HttpClient,SqlClient
+OTEL_EXPORTER=otlp
+OTEL_EXPORTER_OTLP_ENDPOINT=<YOUR_OTLP_ENDPOINT>
+OTEL_SERVICE_NAME=<YOUR_SERVICE_NAME>
+```
+
 ## ENVIRONMENT VARIABLES
 
 To Auto instrument .Net application using LMStartupHook, the following environment variables need to be set:
@@ -32,7 +46,7 @@ environment variables to the following values:
 
 | Environment variable | Value |
 |-|-|
-| `DOTNET_ADDITIONAL_DEPS` | `%InstallationLocation%/AdditionalDeps` |
+| `DOTNET_ADDITIONAL_DEPS` | `./%InstallationLocation%/AdditionalDeps` |
 | `DOTNET_SHARED_STORE` | `%InstallationLocation%/store` |
 
 ### Resources
@@ -74,7 +88,7 @@ The exporter is used to output the telemetry.
 | `OTEL_EXPORTER_OTLP_TIMEOUT` | Maximum time the OTLP exporter will wait for each batch export. | `1000` (ms) |
 | `OTEL_EXPORTER_OTLP_PROTOCOL` | The OTLP expoter transport protocol. Supported values: `grpc`, `http/protobuf`. [1] | `http/protobuf` |
 
-## UPDATING OPENTELEMETRY-DOTNET_INSTRUMENTATION SUBMODULE
+## UPDATING OPENTELEMETRY-DOTNET-INSTRUMENTATION SUBMODULE
 
  - To initialise submodule: 
    -  git submodule init
