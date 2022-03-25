@@ -10,9 +10,17 @@ To auto-instrument applications, the instrumentation:
 
 The auto-instrumentation is capable of injecting instrumentations at runtime, a technique known as monkey-patching. This allows to instrument specific packages or APIs that don't provide the necessary hooks to generate .NET instrumentation packages.
 
+### Mimimun Requirement
+
+`System.Diagnostics.DiagnosticSource version 6.0.0`
+
+Dynamically loading System.Diagnostics.DiagnosticSource.dll with a higher version than the one from framework/package will crash the process.
+Linked issue - [`Diagnostic Source assembly versioning Issue`](https://github.com/open-telemetry/opentelemetry-dotnet-instrumentation/issues/260).
+Hence it is recommended to uses System.Diagnostics.DiagnosticSource version 6.0.0 or higher.
+
 ### Instrument a .NET application
 
-Before running the application, set the following environment variables:
+Before executing the application,first build the application and then set the following environment variables:
 
 ```env
 DOTNET_ADDITIONAL_DEPS=./%InstallationLocation%/AdditionalDeps
