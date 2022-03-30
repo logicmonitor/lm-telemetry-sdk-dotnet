@@ -14,7 +14,6 @@ namespace LMResourceDetector
         public static Dictionary<string, object> Detect()
         {
             Console.WriteLine("Detecting Resource");
-            var servicename = Environment.GetEnvironmentVariable("OTEL_SERVICE_NAME") ?? Assembly.GetEntryAssembly().GetName().Name;
             ResourceList = new Dictionary<string, object>();
             Dictionary<string, object> _resourceList = new Dictionary<string, object>();
             //check if EC2 resource.
@@ -31,20 +30,19 @@ namespace LMResourceDetector
             {
                 PopulateResourceEnvVariable();
             }
-            Environment.SetEnvironmentVariable("OTEL_SERVICE_NAME", servicename);
             return ResourceList;
         }
 
         private static void PopulateResourceEnvVariable()
         {
-            string otel_res_attributes = Environment.GetEnvironmentVariable(resource_attributre_env);
+            string otel_res_attributes = Environment.GetEnvironmentVariable(resource_attributre_env) ?? null;
             StringBuilder sb = new StringBuilder();
             if (otel_res_attributes != null)
             {
                 sb.Append(otel_res_attributes);
                 sb.Append(",");
             }
-            if (ResourceList.Count != 0)
+            if (ResourceList != null)
             {
                 foreach (var item in ResourceList)
                 {

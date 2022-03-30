@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ec2
 {
-    public class LMEc2Resource{
+    public class LMEc2Resource {
         private static readonly string ARN = "aws.arn";
         private static readonly string CLOUD_PLATFORM = "cloud.platform";
         private static readonly string AWS_EC2_PLATFORM = "aws_ec2";
@@ -61,7 +61,7 @@ namespace ec2
             {
                 if(accid[i]!= ' ' && accid[i] !='\"' )
                 {
-                    Console.WriteLine(accid[i]);
+                    //Console.WriteLine(accid[i]);
                     sb.Append(accid[i]);
                 }
             }
@@ -73,7 +73,11 @@ namespace ec2
             try
             {
                 var response = await PingEC2();
-                return true;
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    return true;
+                }
+                return false;
             }
             catch (Exception e)
             {
@@ -87,7 +91,7 @@ namespace ec2
         {
             using (var client = new HttpClient())
             {
-                var request = new HttpRequestMessage(HttpMethod.Post, "http://169.254.169.254/");
+                var request = new HttpRequestMessage(HttpMethod.Post, "http://169.254.169.254/latest/meta-data/");
                 client.Timeout = TimeSpan.FromSeconds(2);
                 var response = await client.SendAsync(request);
                 return response;
