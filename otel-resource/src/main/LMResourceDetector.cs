@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 using ec2;
+using LMTelemetrySDK.azure;
 
 namespace LMResourceDetector
 {
@@ -18,6 +18,10 @@ namespace LMResourceDetector
             Dictionary<string, object> _resourceList = new Dictionary<string, object>();
             //check if EC2 resource.
             _resourceList=LMEc2Resource.get();
+            if (_resourceList == null)
+            {
+                _resourceList = LmAzurevmResource.get();
+            }
             if (_resourceList != null)
             {
                 foreach (var item in _resourceList)
