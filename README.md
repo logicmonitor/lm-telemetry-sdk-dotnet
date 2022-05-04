@@ -26,7 +26,7 @@ Before executing the application,first build the application and then set the fo
 DOTNET_ADDITIONAL_DEPS=./%InstallationLocation%/AdditionalDeps
 DOTNET_SHARED_STORE=%InstallationLocation%/store
 DOTNET_STARTUP_HOOKS=%InstallationLocation%/netcoreapp3.1/LMStartupHook.dll
-OTEL_DOTNET_TRACER_INSTRUMENTATIONS=AspNet,HttpClient,SqlClient
+OTEL_DOTNET_AUTO_ENABLED_INSTRUMENTATIONS=AspNet,HttpClient,SqlClient
 OTEL_TRACES_EXPORTER=otlp
 OTEL_EXPORTER_OTLP_ENDPOINT=<YOUR_OTLP_ENDPOINT>
 OTEL_SERVICE_NAME=<YOUR_SERVICE_NAME>
@@ -97,6 +97,18 @@ The exporter is used to output the telemetry.
 | `OTEL_EXPORTER_OTLP_TIMEOUT` | Maximum time the OTLP exporter will wait for each batch export. | `1000` (ms) |
 | `OTEL_EXPORTER_OTLP_PROTOCOL` | The OTLP expoter transport protocol. Supported values: `grpc`, `http/protobuf`. [1] | `http/protobuf` |
 
+### Environment Change Log
+
+| Old Environment variable | New Environment variable | Description | Default |
+|-|-|-|-|
+| `OTEL_INTEGRATIONS` | `OTEL_DOTNET_AUTO_INTEGRATIONS_FILE` | File path of JSON configuration files of bytecode instrumentations. For example: %ProfilerDirectory%/integrations.json | |
+| `OTEL_DOTNET_TRACER_INSTRUMENTATIONS` | `OTEL_DOTNET_AUTO_ENABLED_INSTRUMENTATIONS` | Comma-separated list of source instrumentations you want to enable.| |
+| `OTEL_DOTNET_TRACER_DISABLED_INSTRUMENTATIONS` | `OTEL_DOTNET_AUTO_DISABLED_INSTRUMENTATIONS` | 	Comma-separated list of source and bytecode instrumentations you want to disable. |  |
+| `OTEL_TRACE_{0}_ENABLED` | `OTEL_DOTNET_AUTO_{0}_ENABLED` | Configuration pattern for enabling or disabling specific bytecode. For example, to disable GraphQL instrumentation, set the OTEL_TRACE_GraphQL_ENABLED environment variable to false. | `true`|
+| `OTEL_DOTNET_TRACER_CONSOLE_EXPORTER_ENABLED` | `OTEL_DOTNET_AUTO_CONSOLE_EXPORTER_ENABLED` | Whether the console exporter is enabled or not.| `false` |
+| `OTEL_DOTNET_TRACER_LOAD_AT_STARTUP` | `OTEL_DOTNET_AUTO_LOAD_AT_STARTUP` | Whether the tracer is created by the automatic instrumentation library or not. Set to false when the application initializes the OpenTelemetry .NET SDK Tracer on its own. This configuration can be used, for example, to retrieve the bytecode instrumentations.| `true` |
+| `OTEL_DOTNET_TRACER_ADDITIONAL_SOURCES` | `OTEL_DOTNET_AUTO_ADDITIONAL_SOURCES` |Comma-separated list of additional ActivitySource names to be added to the tracer at the startup. Use it to capture manually instrumented spans.||å
+| `OTEL_DOTNET_TRACER_INSTRUMENTATION_PLUGINS` | `OTEL_DOTNET_AUTO_INSTRUMENTATION_PLUGINS` | Colon-separated list of OTel SDK instrumentation plugins represented by System.Type.AssemblyQualifiedName.||
 ## UPDATING OPENTELEMETRY-DOTNET-INSTRUMENTATION SUBMODULE
 
  - To initialise submodule: 
