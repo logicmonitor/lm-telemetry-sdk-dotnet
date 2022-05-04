@@ -101,7 +101,6 @@ The exporter is used to output the telemetry.
 
 | Old Environment variable | New Environment variable | Description | Default |
 |-|-|-|-|
-| `OTEL_INTEGRATIONS` | `OTEL_DOTNET_AUTO_INTEGRATIONS_FILE` | File path of JSON configuration files of bytecode instrumentations. For example: %ProfilerDirectory%/integrations.json | |
 | `OTEL_DOTNET_TRACER_INSTRUMENTATIONS` | `OTEL_DOTNET_AUTO_ENABLED_INSTRUMENTATIONS` | Comma-separated list of source instrumentations you want to enable.| |
 | `OTEL_DOTNET_TRACER_DISABLED_INSTRUMENTATIONS` | `OTEL_DOTNET_AUTO_DISABLED_INSTRUMENTATIONS` | 	Comma-separated list of source and bytecode instrumentations you want to disable. |  |
 | `OTEL_TRACE_{0}_ENABLED` | `OTEL_DOTNET_AUTO_{0}_ENABLED` | Configuration pattern for enabling or disabling specific bytecode. For example, to disable GraphQL instrumentation, set the OTEL_TRACE_GraphQL_ENABLED environment variable to false. | `true`|
