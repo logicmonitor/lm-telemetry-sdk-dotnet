@@ -69,7 +69,7 @@ The LMStartupHook invokes Lm-telemetry-dotnet resource detector to automatically
 To disable lm auto resource detection, set the `DISABLE_RESOURCE_DETECTION` variable to `1`. Default value is `0`.
 
 ### Instumented libraries and framework
-To use specific instrumentations, set the `OTEL_DOTNET_TRACER_INSTRUMENTATIONS` environment variable. Following are currently supported instrumentation libraries and frameworks.
+To use specific instrumentations, set the `OTEL_DOTNET_AUTO_ENABLED_INSTRUMENTATIONS` environment variable. Following are currently supported instrumentation libraries and frameworks.
 
 | ID | Library | Instrumentation type |
 |-|-|-|
@@ -102,8 +102,6 @@ The exporter is used to output the telemetry.
 | Old Environment variable | New Environment variable | Description | Default |
 |-|-|-|-|
 | `OTEL_DOTNET_TRACER_INSTRUMENTATIONS` | `OTEL_DOTNET_AUTO_ENABLED_INSTRUMENTATIONS` | Comma-separated list of source instrumentations you want to enable.| |
-| `OTEL_DOTNET_TRACER_DISABLED_INSTRUMENTATIONS` | `OTEL_DOTNET_AUTO_DISABLED_INSTRUMENTATIONS` | 	Comma-separated list of source and bytecode instrumentations you want to disable. |  |
-| `OTEL_TRACE_{0}_ENABLED` | `OTEL_DOTNET_AUTO_{0}_ENABLED` | Configuration pattern for enabling or disabling specific bytecode. For example, to disable GraphQL instrumentation, set the OTEL_TRACE_GraphQL_ENABLED environment variable to false. | `true`|
 | `OTEL_DOTNET_TRACER_CONSOLE_EXPORTER_ENABLED` | `OTEL_DOTNET_AUTO_CONSOLE_EXPORTER_ENABLED` | Whether the console exporter is enabled or not.| `false` |
 | `OTEL_DOTNET_TRACER_LOAD_AT_STARTUP` | `OTEL_DOTNET_AUTO_LOAD_AT_STARTUP` | Whether the tracer is created by the automatic instrumentation library or not. Set to false when the application initializes the OpenTelemetry .NET SDK Tracer on its own. This configuration can be used, for example, to retrieve the bytecode instrumentations.| `true` |
 | `OTEL_DOTNET_TRACER_ADDITIONAL_SOURCES` | `OTEL_DOTNET_AUTO_ADDITIONAL_SOURCES` |Comma-separated list of additional ActivitySource names to be added to the tracer at the startup. Use it to capture manually instrumented spans.||å
