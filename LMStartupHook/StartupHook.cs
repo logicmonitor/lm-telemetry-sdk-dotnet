@@ -78,7 +78,7 @@ internal class StartupHook
     private static void InvokerOtelStartupHookMethod(String loaderdirectory , AssemblyLoadContext context)
     {
         //Console.WriteLine($"Get OpenTelemetry.Instrumentation.StartupHook type");
-        var otelStartHookpath = Path.Combine(loaderdirectory, "OpenTelemetry.Instrumentation.StartupHook" + ".dll");
+        var otelStartHookpath = Path.Combine(loaderdirectory, "OpenTelemetry.AutoInstrumentation.StartupHook" + ".dll");
         Assembly OtelHook = context.LoadFromAssemblyPath(otelStartHookpath);
         var loaderType = OtelHook.GetType("StartupHook");
 
