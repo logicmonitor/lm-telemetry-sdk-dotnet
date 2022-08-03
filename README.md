@@ -10,7 +10,7 @@ To auto-instrument applications, the instrumentation:
 
 The auto-instrumentation is capable of injecting instrumentations at runtime, a technique known as monkey-patching. This allows to instrument specific packages or APIs that don't provide the necessary hooks to generate .NET instrumentation packages.
 
-### Mimimun Requirement
+### Minimum Requirement
 
 `System.Diagnostics.DiagnosticSource version 6.0.0`
 
@@ -68,7 +68,7 @@ environment variables to the following values:
 The LMStartupHook invokes Lm-telemetry-dotnet resource detector to automatically detect resource attributes.Currently lm-telemetry-dotnet resource detector can only detect AWS EC2 environment variables along with service name.
 To disable lm auto resource detection, set the `DISABLE_RESOURCE_DETECTION` variable to `1`. Default value is `0`.
 
-### Instumented libraries and framework
+### Instrumented libraries and framework
 To use specific instrumentations, set the `OTEL_DOTNET_AUTO_ENABLED_INSTRUMENTATIONS` environment variable. Following are currently supported instrumentation libraries and frameworks.
 
 | ID | Library | Instrumentation type |
